@@ -3,7 +3,7 @@
 Defaults follow the new theoretical scaling:
     K(d)   = round(K_at_100 * (d/100)^K_exp)        # K_exp = 1/3
     eta(d) = eta_at_100 * (d/100)^eta_exp           # eta_exp = -1/2
-    M(d)   = min(100 * d * (d-1), M_cap)            # M_cap = 200000
+    M(d)   = 100 * d * (d-1)
 
 Anchors at d=100 use K=50, eta=0.006.
 At other d the new scaling differs, isolating the effect of the exponents.
@@ -154,10 +154,6 @@ def main():
     parser.add_argument('--K_exp', type=float, default=1.0 / 3.0)
     parser.add_argument('--eta_at_100', type=float, default=0.006)
     parser.add_argument('--eta_exp', type=float, default=-0.5)
-    parser.add_argument('--M_cap', type=int, default=0,
-                        help='hard cap on M; 0 = no explicit cap (uses mem_budget_gb)')
-    parser.add_argument('--mem_budget_gb', type=float, default=28.0,
-                        help='per-GPU memory budget for leapfrog tensors (default 28 GB)')
     parser.add_argument('--threshold', type=float, default=0.1)
     parser.add_argument('--max_rounds', type=int, default=None,
                         help='default = max(500, 10 * round(c * d^(1/3))) with c=63')
@@ -175,14 +171,7 @@ def main():
 
     K = max(1, round(args.K_at_100 * (args.d / 100.0) ** args.K_exp))
     eta = args.eta_at_100 * (args.d / 100.0) ** args.eta_exp
-    M_full = max(100 * args.d * (args.d - 1), 1)
-    # ~7 tensors of shape (M, N, d) fp32 peak during leapfrog (q, p, g, q_new,
-    # g2, plus PyTorch arithmetic intermediates)
-    M_budget = int(args.mem_budget_gb * 1e9 / (7 * args.N * args.d * 4))
-    if args.M_cap > 0:
-        M = min(M_full, args.M_cap)
-    else:
-        M = min(M_full, M_budget)
+    M = max(100 * args.d * (args.d - 1), 1)
 
     if args.max_rounds is None:
         # Generous slack: 10x predicted; floor 500

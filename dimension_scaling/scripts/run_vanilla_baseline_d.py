@@ -122,8 +122,6 @@ def main():
     parser.add_argument('--eta_exp', type=float, default=-0.5)
     parser.add_argument('--R_target', type=int, required=True,
                         help='exact number of rounds to run (no stopping)')
-    parser.add_argument('--M_cap', type=int, default=0)
-    parser.add_argument('--mem_budget_gb', type=float, default=28.0)
     parser.add_argument('--verbose_every', type=int, default=50)
     parser.add_argument('--out', required=True)
     parser.add_argument('--gpu', type=int, default=0)
@@ -137,12 +135,7 @@ def main():
     K_a = max(1, round(args.K_at_100 * (args.d / 100.0) ** args.K_exp))
     K_v = max(1, round(K_a / args.T_vanilla))
     eta = args.eta_at_100 * (args.d / 100.0) ** args.eta_exp
-    M_full = max(100 * args.d * (args.d - 1), 1)
-    M_budget = int(args.mem_budget_gb * 1e9 / (7 * args.N * args.d * 4))
-    if args.M_cap > 0:
-        M = min(M_full, args.M_cap)
-    else:
-        M = min(M_full, M_budget)
+    M = max(100 * args.d * (args.d - 1), 1)
 
     print(f'[vanilla d={args.d}] K_adaptive={K_a}  K_vanilla={K_v}  '
           f'T={args.T_vanilla}  total_leapfrog/round={K_v*args.T_vanilla}', flush=True)
