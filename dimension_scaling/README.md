@@ -1,10 +1,10 @@
 # Dimension Scaling Experiment
 
 Heterogeneous Gaussian setup from the paper Section 5.2:
-- $N=10$ clients; first half $\mathcal{N}(20\mathbf{1}_d, I_d)$, second half
+- $N=10$ clients; first half $\mathcal{N}(20*\mathbf{1}_d, I_d)$, second half
   $\mathcal{N}(\mathbf{1}_d, 4I_d)$
   (paper has a typo: $\sigma^2=2$ should be $\sigma^2=4$)
-- Aggregate target: $\mathcal{N}(16.2\mathbf{1}_d, 1.6I_d)$
+- Aggregate target: $\mathcal{N}(16.2*\mathbf{1}_d, 1.6I_d)$
 - $W_2^2$ is computed against this aggregate.
 
 Two experiments:
