@@ -41,7 +41,7 @@ def main():
     parser.add_argument('-split', default='iid', choices=['iid', 'dirichlet'],
                         help='per-client partition (fast path only): iid random shuffle, or Dirichlet over labels')
     parser.add_argument('-dirichlet_alpha', default=0.1, type=float,
-                        help='Dirichlet concentration; smaller = more label-skewed (0.1 = SCAFFOLD canonical)')
+                        help='Dirichlet concentration; smaller = more label-skewed (0.1 is the canonical heterogeneous setting)')
 
     # Other hyperparameters
     parser.add_argument('-data', default='FashionMNIST', dest='data', help='FashionMNIST')

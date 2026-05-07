@@ -1,4 +1,4 @@
-"""Adaptive (SCAFFOLD) FA-HMC driver with d-dependent K and eta.
+"""Adaptive FA-HMC driver with d-dependent K and eta.
 
 Defaults follow the new theoretical scaling:
     K(d)   = round(K_at_100 * (d/100)^K_exp)        # K_exp = 1/3

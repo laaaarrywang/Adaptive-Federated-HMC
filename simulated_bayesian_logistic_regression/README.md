@@ -41,10 +41,6 @@ qsub run_d1000_full_eta_grid.sh
 qsub run_d10_full_eta_grid.sh
 ```
 
-If unset, `PROJECT_ROOT` is inferred from the launcher location and `SCRATCH_ROOT` defaults to `$PROJECT_ROOT/results`.
-
-Before submitting, replace `#PBS -A YOUR_ALLOCATION` in each launcher with your cluster allocation.
-
 ## Plotting
 
 Use `plot_logistic_regression_results.py` after MHMC reference samples and sweep outputs are available. Example:

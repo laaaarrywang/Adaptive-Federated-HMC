@@ -1,7 +1,7 @@
-"""Vanilla FA-HMC driver matched to the adaptive (SCAFFOLD) experiment.
+"""Vanilla FA-HMC driver matched to the adaptive HMC experiment.
 
 Same eta(d), same total leapfrog per round, same R_target, same seed —
-only difference is no SCAFFOLD gradient correction and momentum refresh
+only difference is no gradient correction and momentum refresh
 T times per round (vs once for adaptive).
 
 K_v = max(1, round(K_a / T_vanilla)) where K_a is the adaptive K(d).

@@ -43,8 +43,6 @@ cd "$PROJECT_ROOT/fmnist/scripts"
 qsub run_fmnist_heterogeneous_400_tuning.sh
 ```
 
-If unset, `PROJECT_ROOT` is inferred from the launcher location and `SCRATCH_ROOT` defaults to `$PROJECT_ROOT/results`.
-
 ## Plotting
 
 After the sweep finishes:

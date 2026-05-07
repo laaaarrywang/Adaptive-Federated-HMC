@@ -8,10 +8,6 @@ This repository contains the runnable code for the three experiments:
 | `dimension_scaling/` | dimension-scaling experiment |
 | `fmnist/` | Fashion-MNIST experiment |
 
-The folders intentionally include only experiment entrypoints, plotting scripts,
-and the Python modules needed by those entrypoints. Generated outputs, logs,
-cached bytecode, and previous sweep results are excluded.
-
 ## Running on a cluster
 
 The PBS launchers use two environment variables:

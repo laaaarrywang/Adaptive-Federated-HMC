@@ -1,10 +1,10 @@
 """GPU implementations of FA-HMC for Bayesian logistic regression.
 
 Three variants:
-  - fa_hmc_logreg            — vanilla FA-HMC (matches alg_fed.py math)
-  - fa_hmc_logreg_adaptive   — SCAFFOLD-corrected (matches alg_fed_adaptive.py math)
+  - fa_hmc_logreg            — vanilla FA-HMC 
+  - fa_hmc_logreg_adaptive   — gradient-corrected 
   - both accept `noise_sigma > 0` to inject N(0, noise_sigma^2) per gradient
-    coordinate per client per chain (paper's stochastic-gradient simulation).
+    coordinate per client per chain.
 
 All three batch over M independent chains. Data layout:
   - U_stacked: shape (N, d, n_c) — column slices of the original (d, N*n_c) data
@@ -49,7 +49,7 @@ def grad_client_batched(
         g_c(x) = x + N * U_c @ sigmoid(U_c.T @ x)
 
     With `noise_sigma > 0`, adds independent N(0, noise_sigma^2) noise to every
-    coordinate (paper's stochastic-gradient simulation, panel b/d).
+    coordinate.
     """
     # logits[m, c, i] = sum_k U_stacked[c, k, i] * q[m, c, k]
     logits = torch.einsum('cki,mck->mci', U_stacked, q)
@@ -83,7 +83,7 @@ def fa_hmc_logreg(
     Per outer iter: T trajectories from X0, each with K leapfrog and a
     mid-trajectory all-reduce of (q, p) every T grad evaluations. X0 is
     updated from the LAST trajectory's q at end of outer iter; sample
-    callback fires once per outer iter (post-X0-update).
+    callback fires once per outer iter.
 
     Returns final X0 of shape (M, d).
     """
@@ -138,7 +138,7 @@ def fa_hmc_logreg_adaptive(
     record_every: int = 0,
     record_fn: Callable[[int, torch.Tensor], None] | None = None,
 ) -> torch.Tensor:
-    """Adaptive (SCAFFOLD) FA-HMC.
+    """Adaptive FA-HMC.
 
     At round start: snapshot g_c(X_sync) per client and the global average
     g_global(X_sync). During the round, leapfrog uses the corrected gradient

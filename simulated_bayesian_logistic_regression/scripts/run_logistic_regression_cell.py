@@ -5,9 +5,9 @@ the resulting (M*S, d) sample matrix to npz alongside metadata. Used by the
 PBS sweep script which loops over the cells.
 
 Algorithms (matched-compute convention, K_adaptive = T * K_FA-HMC):
-  fa_ld     : K=1, T=10, no SCAFFOLD
-  fa_hmc    : K=K_p(eta), T=10, no SCAFFOLD
-  adaptive  : K=10*K_p(eta), T=1, SCAFFOLD-corrected
+  fa_ld     : K=1, T=10, no gradient correction
+  fa_hmc    : K=K_p(eta), T=10, no gradient correction
+  adaptive  : K=10*K_p(eta), T=1, gradient-corrected
 """
 from __future__ import annotations
 

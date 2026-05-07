@@ -16,7 +16,7 @@ Two experiments:
    leapfrog steps per round
    ($K_{\mathrm{v}}T_{\mathrm{v}}=K_{\mathrm{a}}$, $T_{\mathrm{v}}=10$),
    and same $R$ per $d$ as the adaptive experiment.
-   Measures final $W_2^2$ (no SCAFFOLD correction, so bias does not vanish).
+   Measures final $W_2^2$ (no gradient correction, so bias does not vanish).
 
 ## Layout
 
@@ -68,7 +68,7 @@ reach the threshold.
 - Adaptive remains pinned at threshold $\approx 0.1$ (horizontal reference).
 - The vanilla error is **3-5 orders of magnitude** above adaptive, driven by a
   persistent mean bias ($\hat{\mu} \approx 6$-$9$ vs target $16.2$) - the heterogeneity bias that
-  SCAFFOLD removes.
+  the gradient correction removes.
 
 ## Reproducing
 

@@ -1,7 +1,7 @@
 """Fast federated trainer mirroring trainer.training_federated.
 
 Algorithmic structure follows the original federated trainer: same momentum draw,
-same leapfrog updates (with optional SCAFFOLD correction when
+same leapfrog updates (with optional gradient correction when
 `pars.adaptive=1`), same sync cadence (`numerical_step % local_step == 0`),
 same per-checkpoint validation and `probs_chain` saving. The only change is
 that batch fetching no longer goes through a DataLoader — instead, all data
@@ -72,7 +72,7 @@ def training_federated_fast(nets, net_server, train_x, train_y, clients,
             for c in range(num_client):
                 p_clients[c][i] = p_initial[i].clone()
 
-        # SCAFFOLD: snapshot per-client + global gradients at the synced point
+        # snapshot per-client + global gradients at the synced point
         if pars.adaptive:
             for c in range(num_client):
                 net = nets[c]
