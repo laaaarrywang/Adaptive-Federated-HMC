@@ -16,7 +16,7 @@ import numpy as np
 
 
 # Columns of the (n_chkpt, 6) test_poster array, per cal_poster_metrics_initial.evaluation.
-# The anonymous release plots NLL, accuracy, and Brier score.
+# This script plots NLL, accuracy, and Brier score.
 COL_NLL = 0
 COL_ACC = 1
 COL_BRIER = 2

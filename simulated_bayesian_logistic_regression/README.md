@@ -1,8 +1,7 @@
 # Simulated Bayesian Logistic Regression
 
-This folder contains the simulated Bayesian logistic regression experiment code.
-
-Only two production sweep launchers are included in this anonymous export:
+This folder contains the simulated Bayesian logistic regression experiment code
+(paper Figure 2 and the appendix grid). There are two sweep launchers:
 
 ```bash
 scripts/run_d1000_full_eta_grid.sh

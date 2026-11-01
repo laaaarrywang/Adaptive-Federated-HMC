@@ -1,12 +1,14 @@
 # Fashion-MNIST Heterogeneous Experiment
 
-This folder contains the Fashion-MNIST federated HMC experiment code.
+This folder contains the Fashion-MNIST federated HMC experiment code
+(paper Figure 4 and appendix). There are two launchers:
 
 ```bash
-scripts/run_fmnist_heterogeneous_400_tuning.sh
+scripts/run_fmnist_heterogeneous_400_tuning.sh   # stepsize tuning, 400 rounds
+scripts/run_fmnist_heterogeneous_3600.sh         # selected stepsizes, 3600 rounds
 ```
 
-The launcher runs label-skewed federated Fashion-MNIST with
+The tuning launcher runs label-skewed federated Fashion-MNIST with
 $\mathrm{Dirichlet}(\alpha=0.1)$ client splits for:
 
 - FA-HMC with $K \in \{1, 10, 50, 100\}$
@@ -30,6 +32,8 @@ $\mathrm{Dirichlet}(\alpha=0.1)$ client splits for:
 | `transforms.py` | torchvision transform helpers |
 | `scripts/run_fmnist_heterogeneous_400_tuning.sh` | single-GPU full heterogeneous 400-round $\eta$ sweep |
 | `scripts/plot_fmnist_results.py` | plot generator for Accuracy, Brier score, and NLL from saved `post.npz` files |
+| `scripts/run_fmnist_heterogeneous_3600.sh` | 3600-round runs at the selected stepsizes (50 cells); supports `NUM_SHARDS`/`SHARD_ID` to split the cells across GPUs or jobs |
+| `scripts/make_camera_ready_figures.py` | paper Figure 4 and the appendix figure/tables on the equal server-exchange axis |
 
 ## Running
 
@@ -60,3 +64,28 @@ python "$PROJECT_ROOT/fmnist/scripts/plot_fmnist_results.py" \
 
 The plotter reports metric-specific $\eta$ choices and generates panels for
 Accuracy, Brier score, and NLL.
+
+## Long runs and equal-exchange plots
+
+The 3600-round launcher runs the stepsizes selected by the tuning sweep for
+5 seeds each. The full set takes roughly 135 GPU-hours on one GPU; to use a
+4-GPU node:
+
+```bash
+cd "$PROJECT_ROOT/fmnist/scripts"
+for s in 0 1 2 3; do
+  NUM_SHARDS=4 SHARD_ID=$s GPU_ID=$s bash run_fmnist_heterogeneous_3600.sh &
+done
+wait
+```
+
+AFHMC uses two server exchanges per round and FA-HMC one, so the plots put
+FA-HMC round $r$ at $x=r$ and AFHMC round $r$ at $x=2r$ (AFHMC rounds 0-1800):
+
+```bash
+python make_camera_ready_figures.py --results "$SCRATCH_ROOT/fmnist/heterogeneous_3600" \
+  --metrics accuracy --out fmnist_accuracy_equal_exchange.png \
+  --table final_table.tex --trajectory trajectory_table.tex
+python make_camera_ready_figures.py --results "$SCRATCH_ROOT/fmnist/heterogeneous_3600" \
+  --metrics brier,nll --out fmnist_brier_nll_equal_exchange.png
+```

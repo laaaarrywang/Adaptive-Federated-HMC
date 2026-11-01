@@ -1,4 +1,4 @@
-"""Fashion-MNIST figures and tables on the equal server-exchange axis (paper Fig. 3).
+"""Fashion-MNIST figures and tables on the equal server-exchange axis (paper Figure 4).
 
 FA-HMC/FA-LD use one server exchange per communication round and AFHMC uses
 two, so FA-HMC round r is plotted at x = r and AFHMC round r at x = 2r. With a

@@ -1,4 +1,4 @@
-"""Generate the three panels of the dimension-scaling figure (paper Fig. 2).
+"""Generate the three panels of the dimension-scaling figure (paper Figure 3).
 
   fig2_cr_rounds_vs_d.png:
       AFHMC first-crossing round R(d) on the heterogeneous Gaussian with the
